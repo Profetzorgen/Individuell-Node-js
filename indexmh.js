@@ -6,22 +6,18 @@
 // 3.email
 // 4.telefonnummer
 // 5.inlägg
-
+// Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 // get element...
 
-// const express = require("express");
-// const app = express();
-// app.get("/", (req, res) =>{
-//     res.sendFile(__dirname + "/indexmhh.html");
-// });
-// app.listen(3000);
-// console.log("Gästboken är online.");
+const express = require("express");
+const app = express();
+app.get("/", (req, res) =>{
+    res.sendFile(__dirname + "/indexmhh.html");
+});
+app.listen(3000);
+console.log("Gästboken är online.");
 
-// let namn = document.getElementById('namn');
-// let email = document.getElementById('email');
-// let mobil = document.getElementById('mobil');
-// let inlagg = document.getElementById('gestboksinlegg');
-// let pass = document.getElementById('pass');
+
 // lägg till inmatningskontroll typ regex på detta ovan.
 let fs =require("fs");
 const readline = require('readline');
@@ -55,7 +51,7 @@ r1.question('Skriv 1 för att köra del 1 och skapa fil, 2 för att köra del 2 
             if(err) throw err;
             console.log('Ny fil sparad, om det inte fanns någon');
         });
-    } else {
+    } else if (answer == 2){
         fs.readFile("km10.json", function(err,data){
             let json = JSON.parse(data);
             json.push({"namn": "Krystlejf Den Sege", "email": "forstoppning@transleffe.se", "mobil": "0707654321", "inlagg": "Det visste jag väl redan... hurr durr..", "pass": "VartÄrMuggen?"});
@@ -64,4 +60,18 @@ r1.question('Skriv 1 för att köra del 1 och skapa fil, 2 för att köra del 2 
                 console.log("Ändringarna är nog sparade nu ska du se!!!!");
             });
         });
-    }});
+
+    }
+    else if(answer ==3) {
+
+        fs.readFile("km10.json", function(err,data){
+            let json = JSON.parse(data);
+            json.push({"namn": namn, "email": email, "mobil": mobil, "inlagg": inlagg, "pass": pass});
+            fs.writeFile("km10.json", JSON.stringify(json), function(err){
+                if(err) throw err;
+                console.log("Om detta fungerade, har du nu sparat informationen korrekt!");
+            });
+        });
+    }
+    
+});
