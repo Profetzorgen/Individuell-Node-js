@@ -17,6 +17,17 @@ app.get("/", (req, res) =>{
 app.listen(3000);
 console.log("Gästboken är online.");
 
+    // let namn = document.getElementById('namn');
+    // let email = document.getElementById('email');
+    // let mobil = document.getElementById('mobil');
+    // let inlagg = document.getElementById('gestboksinlegg');
+    // let pass = document.getElementById('pass');
+    let namn ="Testnamn";
+    let email ="Testmail";
+    let mobil ="Testmobil";
+    let inlagg ="Testinlagg";
+    let pass = "Testpass";
+
 
 // lägg till inmatningskontroll typ regex på detta ovan.
 let fs =require("fs");
@@ -26,7 +37,7 @@ const r1 = readline.createInterface({
     output: process.stdout
 });
 // knappen skicka bör aktivera tillverkandet av filen, inläsning och tillägg
-r1.question('Skriv 1 för att köra del 1 och skapa fil, 2 för att köra del 2 och spara till befintlig fil',
+r1.question('Skriv 1 för att köra del 1 och skapa fil, 2 för att köra del 2 och spara till befintlig fil, 3 för att spara testinfo variabelmässigt:',
 (answer) =>{
     console.log(answer);
     if(answer== 1){
