@@ -1,4 +1,4 @@
-// mattis individuella inlämning.
+// mattis individuella inlämning. Version 1.0
 // Denna är under utveckling och fungerar inte riktigt rätt ännu.
 // Beskrivande inledande rubrik, sedan inmatningsfält med:
 // 1.tids-stämpel
