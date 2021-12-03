@@ -17,17 +17,18 @@ app.get("/", (req, res) =>{
 app.listen(3000);
 console.log("Gästboken är online.");
 
-    // let namn = document.getElementById('namn');
-    // let email = document.getElementById('email');
-    // let mobil = document.getElementById('mobil');
-    // let inlagg = document.getElementById('gestboksinlegg');
-    // let pass = document.getElementById('pass');
-    let namn ="Testnamn";
-    let email ="Testmail";
-    let mobil ="Testmobil";
-    let inlagg ="Testinlagg";
-    let pass = "Testpass";
-
+app.use(express.static("publikmapp"));
+app.get("/hamta-data", (req, res) => {
+    // här snackar den mellan skripten tror jag
+})
+fs.readFile("km10.json", function(err,data){
+    let json = JSON.parse(data);
+    json.push({"namn": namn, "email": email, "mobil": mobil, "inlagg": inlagg, "pass": pass});
+    fs.writeFile("km10.json", JSON.stringify(json), function(err){
+        if(err) throw err;
+        console.log("Om detta fungerade, har du nu sparat informationen korrekt!");
+    });
+});
 
 // lägg till inmatningskontroll typ regex på detta ovan.
 let fs =require("fs");
@@ -73,16 +74,5 @@ r1.question('Skriv 1 för att köra del 1 och skapa fil, 2 för att köra del 2 
         });
 
     }
-    else if(answer ==3) {
-
-        fs.readFile("km10.json", function(err,data){
-            let json = JSON.parse(data);
-            json.push({"namn": namn, "email": email, "mobil": mobil, "inlagg": inlagg, "pass": pass});
-            fs.writeFile("km10.json", JSON.stringify(json), function(err){
-                if(err) throw err;
-                console.log("Om detta fungerade, har du nu sparat informationen korrekt!");
-            });
-        });
-    }
-    
 });
+
