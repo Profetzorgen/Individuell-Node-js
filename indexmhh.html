@@ -1,14 +1,14 @@
 <!--Nu är HTML klar! den klarade att skriva ut i textfil så som jag gjort på vår gruppuppgift
 nästa steg är att få den att hantera innehåll i .json format-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="mattiscss.css" />
     <!-- <script src="/indexmh.js"></script> -->
-    <script src="/klientmh.js"></script>
+    <script src="./publikmapp/klientmh.js"></script>
     
     <title>Mattis gästbok version 1</title>
 </head>
@@ -18,7 +18,7 @@ nästa steg är att få den att hantera innehåll i .json format-->
     </header>
     <main>
         <fieldset>
-            <form id ="mittFormular">
+            <form action ="/processa-forfragan" method="get">
             <div class="delning">
                 <label class="label1">Namn: </label>
                 <input type="text" id="namn">
@@ -39,10 +39,7 @@ nästa steg är att få den att hantera innehåll i .json format-->
                 <label class="=label1">Lösenord</label>
                 <input type="password" id="pass">
             </div>
-            <div class="delning">
-                <input type="submit" id="button" value="Skicka">
-                <p id="knapp">För att skicka, tryck på knappen!</p>
-            </div>
+            <input type="submit">
         </form>
         </fieldset>
         
