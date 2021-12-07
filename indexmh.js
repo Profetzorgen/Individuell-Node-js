@@ -1,7 +1,11 @@
 // Tydligen räcker den här mängden kod
 const express = require("express") // const = går ej att ändra,spikad variabel
 const path = require("path"); // express vet ni vad det är, en grej i javascript.
-  
+// const { body, validationResult } = require('express-validator');
+// var validator = require('validator');
+// validator.isEmail('foo@bar.com');
+// import validator from 'validator'; 
+
 const app = express(); // app använder express
 const port = process.env.PORT || 3000; // såhär skriver man tydligen också. säger bara 
 // lyssna på 3000.
@@ -27,12 +31,13 @@ app.get("/", (req, res) =>{
 app.post("/request", (req, res) => { // När någon postar mig strängvariabler upplagda som i json
    res.json([{ // spara dem i json-format.
       namn_recieved: req.body.namn, // Jag fick ett namn, för jag requestade ett namn.
+      // efternamn_recieved: req.body.efternamn,
       mobil_recieved: req.body.mobil,
       email_recieved: req.body.email,
       inlagg_recieved: req.body.inlagg,
       pass_recieved: req.body.pass,
-   }]) // ALLT FUNKADE, ALLA VARIABLER STÄMMER!ja men..
-});//<----- Ta en kringla vetja! Var inte blyg, det finns massor!
+   }]) // ALLT FUNKADE, ALLA VARIABLER STÄMMER!ja men..a
+});//<----- Ta en kringla vetja! Var inte blyg, det finns massor!a
 
 
 // Jag är server, en kort klase med kod, jag lyssnar på port 3000 och svarar
@@ -62,5 +67,12 @@ skriva till fil, läsa från fil
        --uppdatera hemsidan, gemensamma
        --slutligen=styling med css på både gemensama och individuella uppg.
        --uppgifter del 2. sockets etc.
+       --kanske ha chattfönster med sockets på individ/gemensam?
+
+
+       FRÅN MÖTE:
+       1.Användaren gör ett inlägg.
+       2.Inlägget skickas till server.
+       3.Server sparar den på befintlig fil och uppdaterar hemsidan utan att den laddas om.
       */
-///
+///// Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass

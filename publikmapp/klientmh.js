@@ -1,32 +1,79 @@
 // SÅHÄR BLEV DET FÄRDIGA RESULTATET:
-$(document).ready(function () { // samma som window.onload = function
-    $("#submit").click(function () { // vid klick på knappen, skicka.
-        $.post("/request", // post-request, obs här i klientskript.
-           {// Användaren fyller i på sidan,trycker submit lr vad det står.
-            // Det här skriptet gör om innehållet i formulär-rutorna till textsträng i json-format även fast det inte ser så ut..
-            //..men document.getElementById('namn').value är samma sak som "Svalbard Målvaktsson" i vårt exempel...
-              namn: document.getElementById('namn').value, //..istället för exempel-strängen name: "viSion",
-              mobil: document.getElementById('mobil').value,// obs alla inputs i html är av type="text" än så länge, ska ändras.
-              email: document.getElementById('email').value,// denna ska va type="email"
-              inlagg: document.getElementById('inlagg').value,// denna är textarea men de andra är type= text
-              pass: document.getElementById('pass').value// denna är pass, // kom ihåg "pass.on(blur)"" vid behov vid validering.
-           },
-           function (data, status) { // Här sker någon form av level 8 svartkonst. Ska be Macke ringa och fråga åklagarn.
-              console.log(data); // men den skriver iaf ut data i das consöl.
-           });
-           
-           // Här är en fiffig grej som underlättar förståelsen hoppas jag, skriver ut i konsol vad det är för typ av...
-           // ...input man orsakat, notera tex Inläggvariabeln="textarea" i konsölla.
-           console.log("Namnvariabel: " + namn +
-           "\nMobilvariabel: "+ mobil + 
-           "\nEmailvariabel: "+ email + 
-           "\nInläggvariabel: " + inlagg +
-           "\nPasswordvariabel: " +pass);
-           // Detta console.log skrev även ut exakt inmatning när man hade document.getElementByID('namn tex')...
-           //...men för att koden ska bli så kort som möjligt så är rubbet gröntext.
-     });
-});// Älskar alla alzheimers-krumelurer som dyker upp överallt...
+//var validator = require('validator');
 
+
+
+$(document).ready(function () { 
+   
+    $("#submit").click(function () { 
+
+         // det går att ha let namn = doc.getbyID här sen namn i input i post.
+         let namn = document.getElementById('namn').value;
+         // let efternamn = document.getElementById('efternamn').value;
+         let mobil = document.getElementById('mobil').value;
+         let email = document.getElementById('email').value;
+         let inlagg = document.getElementById('inlagg').value;
+         let pass = document.getElementById('pass').value;
+         let klartecken = true;
+         var regexName = /^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i; // Christers specialbrunto!
+         
+         
+         // ovan hämtar alla inputs korrekt, nu ska validering göras på nåt vis under
+         // console.log(validator.isAlpha(namn,'sv-SE')); funkar bara utan mellanslag, tillägget options har jag inte koll på ännu..
+         if(klartecken==true){
+         $.post("/request", 
+          {
+             namn: namn,
+            //  efternamn: efternamn,
+             mobil: mobil,
+             email: email,
+             inlagg: inlagg,
+             pass: pass
+          },
+          function (data, status) {
+             console.log(data); 
+          });
+
+          console.log("Namnvariabel: " + namn +
+          "\nMobilvariabel: "+ mobil + 
+          "\nEmailvariabel: "+ email + 
+          "\nInläggvariabel: " + inlagg +
+          "\nPasswordvariabel: " +pass);
+      }    
+});
+
+// $(document).ready(function(){
+
+
+// })
+// $(document).ready(function () { 
+   // namn: document.getElementById('namn').value,
+   // mobil: document.getElementById('mobil').value,
+   // email: document.getElementById('email').value,
+   // inlagg: document.getElementById('inlagg').value,
+   // pass: document.getElementById('pass').value,
+//    $("#submit").click(function () { 
+
+
+
+//        $.post("/request", 
+//           {
+//              namn: namn,
+//              mobil: mobil,
+//              email: email,
+//              inlagg: inlagg,
+//           },
+//           function (data, status) {
+//              console.log(data); 
+//           });
+
+//           console.log("Namnvariabel: " + namn +
+//           "\nMobilvariabel: "+ mobil + 
+//           "\nEmailvariabel: "+ email + 
+//           "\nInläggvariabel: " + inlagg +
+//           "\nPasswordvariabel: " +pass);
+//     });
+// });
 // DET HÄR KOPIERADE JAG FRÅN NÄTET:
 //  $(document).ready(function () {
 //     $("#submit").click(function () {
@@ -41,3 +88,4 @@ $(document).ready(function () { // samma som window.onload = function
 //     });
 //  });name: 
 // Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+})
