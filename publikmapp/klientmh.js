@@ -14,13 +14,27 @@ $(document).ready(function () {
          let email = document.getElementById('email').value;
          let inlagg = document.getElementById('inlagg').value;
          let pass = document.getElementById('pass').value;
-         let klartecken = true;
+         var namnLabel = document.getElementById('namnLabel');
+         let klartecken = false;
+
+         
          var regexName = /^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i; // Christers specialbrunto!
          
-         
+         let namnTest = function(reg,str) {
+            if (reg.test(str)) {
+               namnLabel.innerHTML="Namn OK!";
+               klartecken = true;
+            }else{
+               namnLabel.innerHTML="Fel namninput! Försök igen";
+               
+               klartecken = false;
+            }
+         }
+      
          // ovan hämtar alla inputs korrekt, nu ska validering göras på nåt vis under
          // console.log(validator.isAlpha(namn,'sv-SE')); funkar bara utan mellanslag, tillägget options har jag inte koll på ännu..
-         if(klartecken==true){
+         namnTest(regexName,namn);
+         if(klartecken == true){
          $.post("/request", 
           {
              namn: namn,
