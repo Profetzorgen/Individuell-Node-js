@@ -42,7 +42,7 @@ app.post("/request", (req,res) => {
             inlagg_recieved: req.body.inlagg,
             pass_recieved: req.body.pass,
          };
-             // Läser in data från .json-fil och sparar i JSON-format i variabel.
+             
     const filData = fs.readFileSync("inlagg.json");
     omvandlaText = JSON.parse(filData);
     omvandlaText.push(mottagetInlagg);
