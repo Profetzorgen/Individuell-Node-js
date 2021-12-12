@@ -1,1 +1,22 @@
 /*mattis css*/
+#skapAnvFormular{
+    display: none;
+}
+#loggaAnvForm{
+    display: none;
+}
+#inlaggSkicka{
+    margin-top: 5px;
+}
+#users{
+    margin-top: 50px;
+}
+#innehall{
+    margin-top: 5px;
+}
+#anvSkapKnapp{
+    margin-top: 5px;
+}
+#inlaggSkicka{
+    display: "none";
+}

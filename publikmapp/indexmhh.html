@@ -14,10 +14,12 @@
 <body>
     <h1>Mattis halvsega gästboksbrunto</h1>
     <h2 id="ajaxText">Den här texten ska förändras via ajax utan att sidan laddas om</h2>
-    <button id="h2refresh">Denna knapp ändrar texten ovan med ajax.</button>
-    <fieldset>
-        <h3>Skapa användare för att kunna göra inlägg</h3>
-    <form>
+    <button id="h2refresh">Denna knapp ändrar texten ovan med ajax.</button><br>
+    <fieldset id="users">
+        <button onclick="skapaKnapp()" id="anvSkapKnapp">Skapa ny användare</button>
+        <p1 id="eller">eller</p1>
+        <button onclick="loggaKnapp()" id="anvLogKnapp">Logga in</button>
+    <form id="skapAnvFormular">
         <label id="namnLabel">Namn:</label><br>
         <input type="text" id="namn"><br>
 
@@ -27,18 +29,33 @@
         <label id="emailLabel">email:</label><br>
         <input type="email" id="email"><br>
         
-        <!-- <label>Skriv ett inlägg:</label><br>
-        <textarea placeholder="Skriv något här..." id="inlagg"></textarea><br> -->
         <label id="passLabel">Lösenord, minimikrav 8 tecken varav: en stor bokstav, en siffra, en symbol:</label><br>
         <input type="password" id="pass"><br>
+        <button id="skickaUpp">Skicka uppgifterna</button>
     </form>
-    <button id="submit">submit</button>
+    <form id="loggaAnvForm">
+            <label>Användarnamn: </label><br>
+            <input type="text"><br>
+            <label>Lösenord:</label><br>
+            <input type="password"><br>
+    </form>
 </fieldset>  
+<fieldset id="innehall">
+    <section>
+        <label>Datum: </p1><br>
+        <p1 id="inlaggetsDatum">Inlaggsdatum kmr har</p1><br>
+        <label>User: </p1><br>
+        <p1 id="inlaggetsUser">Username kommer har</p1><br>
+        <label>Säger: </p1><br>
+        <p1 id="inlagget">Inlagget i sig sjalvt har</p1>
+    </section>
+</fieldset>
 <fieldset>
-    <section id="server-output">
-        <p>Logga in för att kunna göra inlägg</p><br>
-        <button id="inlagg">Posta inlägget</button>
-        </section>
+    <form id="inlaggSkicka">
+        <label>Skriv ett inlägg:</label><br>
+        <textarea placeholder="Skriv något här..." id="inlagg"></textarea><br>
+        <button id="inlaggPost">Posta inlägget</button><br>
+    </form>
 </fieldset>
 </body>
   

@@ -1,8 +1,12 @@
 // SÅHÄR BLEV DET FÄRDIGA RESULTATET:
 
 $(document).ready(function () { // samma som window.onload
-    $("#submit").click(function () { //obs! knappen i html har id="submit"
-
+   let onlineBool = false;
+   var inlaggSkickaRuta = document.getElementById("inlaggSkicka");
+   if(onlineBool === false){
+      inlaggSkickaRuta.style.display = "none";
+   }
+   $("#skickaUpp").click(function () { //obs! knappen i html har id="submit"
       let datumGenerator = function () {
          dt = new Date().toISOString().split(".")[0].replace(/[^\d]/gi, ""); // skapar datum utan symboler, bara siffror.
          dagensdatum = dt.substring(0, 12); // endast ååååmmddhhmm
@@ -11,7 +15,6 @@ $(document).ready(function () { // samma som window.onload
          let namn = document.getElementById('namn').value;
          let mobil = document.getElementById('mobil').value;
          let email = document.getElementById('email').value;
-         //let inlagg = document.getElementById('inlagg').value; 
          let pass = document.getElementById('pass').value;
 
          var namnLabel = document.getElementById('namnLabel');
@@ -57,10 +60,6 @@ $(document).ready(function () { // samma som window.onload
                return false;
             }
          }
-         // let inlaggJustering = function(){ 
-         //    inlagg=validator.escape(inlagg);
-         // }
-        
          if(
          namnTest(regexName,namn) == true && 
          mobilTest(mobil) == true &&
@@ -70,13 +69,11 @@ $(document).ready(function () { // samma som window.onload
          {
          //inlaggJustering();
          datumGenerator(); 
-         $.post("/user", 
+         $.post("/createUser", 
           {
-             
              namn: namn,
              mobil: mobil,
              email: email,
-             //inlagg: inlagg,
              pass: pass
           },
           function (data, status) { 
@@ -87,7 +84,6 @@ $(document).ready(function () { // samma som window.onload
           "\nNamnvariabel: " + namn +
           "\nMobilvariabel: "+ mobil + 
           "\nEmailvariabel: "+ email + 
-          //"\nInläggvariabel: " + inlagg +
           "\nPasswordvariabel: " +pass);
           alert("Success! användaren skapades!");
           //location.reload(); // laddar om hemsidan
@@ -96,11 +92,66 @@ $(document).ready(function () { // samma som window.onload
          console.log("Något stämmer inte. Har ej skickats.");
       }
 });
-$("#inlagg").click( function() =>{
+$("#inlaggPost").click(function () {
    // skicka inlägg här
-})
+   let dagensDatum = "";
+   let inlagg = document.getElementById('inlagg').value; 
+   let datumGenerator = function () {
+      dt = new Date().toISOString().split(".")[0].replace(/[^\d]/gi, ""); // skapar datum utan symboler, bara siffror.
+      dagensDatum = dt.substring(0, 12); // endast ååååmmddhhmm
+      console.log(dagensDatum);
+   };
+   let inlaggJustering = function(){ 
+      inlagg=validator.escape(inlagg);
+   }
+   inlaggJustering();
+   $.post("/inlagg", 
+   {
+      datum: dagensDatum,
+      inlagg: inlagg
+   },
+   function (data, status) { 
+      console.log(data); 
+   });
+
+   console.log(
+   "\nNamn: " + namn +
+   "\nInlägg" + inlagg
+   );
+   alert("Success! inlägget skapades!");
+   //location.reload(); // laddar om hemsidan
+});
+
+loggaKnapp = function () {
+   var loggaAnvKnapp = document.getElementById("anvLogKnapp");
+   var loggaAnvForm = document.getElementById("loggaAnvForm");
+   var eller = document.getElementById("eller");
+   var skapAnvKnapp = document.getElementById("anvSkapKnapp");
+   var skapAnvForm = document.getElementById("skapAnvFormular");
 
 
+   if (!loggaAnvForm.style.display || loggaAnvForm.style.display==="none"){
+      loggaAnvForm.style.display ="block";
+      skapAnvForm.style.display = "none"
+
+   } else {
+      loggaAnvForm.style.display = "none";
+   }
+}
+skapaKnapp = function () {
+
+   var skapAnvKnapp = document.getElementById("anvSkapKnapp");
+   var skapAnvForm = document.getElementById("skapAnvFormular");
+   var loggaAnvKnapp = document.getElementById("anvLogKnapp");
+   var loggaAnvForm = document.getElementById("loggaAnvForm");
+   var eller = document.getElementById("eller");
+   if (!skapAnvForm.style.display || skapAnvForm.style.display==="none"){
+      skapAnvForm.style.display ="block";
+      loggaAnvForm.style.display = "none"
+   } else {
+      skapAnvForm.style.display = "none";
+   }
+}
 
 // AJAX-RELATERAT HÄR UNDER
 let hamtaData = function(){

@@ -24,16 +24,11 @@ app.post("/inlagg", (req, res) =>{
   omvandlaInlagg = JSON.parse(inlaggData);
   omvandlaInlagg.push(inlagg);
 });
-app.post("/user", (req,res) => { //fd. request i klientmh
-  const inlagg = {
-    datum_received: req.body.dagensdatum,
-    inlagg_received: req.body.inlagg
-  } 
+app.post("/createUser", (req,res) => { //fd. request i klientmh
   const skapaAnv  = {
             namn_received: req.body.namn, 
             mobil_received: req.body.mobil,
             email_received: req.body.email,
-            //inlagg_received: req.body.inlagg,
             pass_received: req.body.pass,
          };
              
@@ -49,6 +44,7 @@ app.post("/user", (req,res) => { //fd. request i klientmh
         if (err) throw err;
         console.log("Användaren skapades korrekt!");
       });
+      res.send()
 
 });
 // AJAX-RELATERAT HÄR UNDER
@@ -61,6 +57,13 @@ const inloggTest= {
   anv: "Admin Adminsson",
   pass: "PasswordPasswordsson_89"
 };
+app.post("/loggain", (req,res)=>{
+  const inloggKontroll = {
+    user: req.body.user,
+    pass: req.body.password
+  }
+});
+
 app.post("/", (req,res)=>{
   const mottagnaLoginUppg = {
     username: req.body.username,
@@ -75,26 +78,11 @@ app.post("/", (req,res)=>{
   }
   else {
     // rätt inloggad: datumstämpel,användarnamn,inlägg ska synas
-    const inlaggFultFormat = JSON.parse(fs.readFileSync("inlagga.json"))
-    let resultat = "";
-    const skapaAnvFultFormat = JSON.parse(fs.readFileSync("skapaAnv.json"));
-    
-    for (let i = 0; i < inlaggFultFormat.length; i++){
-      resultat +=
-      "Datum: " +
-      inlaggFultFormat[i].datum_received +
-      "<br>" +
-      "User: " +
-      skapaAnvFultFormat[i].namn_received +
-      "<br>" +
-      "Inlägg: "+
-      inlaggFultFormat[i].inlagg_received +
-      "<br><br>";
-    }
+   
     fs.readFile("./publikmapp/indexmhh.html", (err, data) => {
       let nyHTML = data
         .toString()
-        .replace("Logga in för att göra inlägg.", omvandlaText);
+        .replace("Logga in för att göra inlägg.", "Du är inloggad<br>"); // + den inloggade
 
       res.send(nyHTML);
     });
