@@ -16,6 +16,7 @@
     <h2 id="ajaxText">Den här texten ska förändras via ajax utan att sidan laddas om</h2>
     <button id="h2refresh">Denna knapp ändrar texten ovan med ajax.</button>
     <fieldset>
+        <h3>Skapa användare för att kunna göra inlägg</h3>
     <form>
         <label id="namnLabel">Namn:</label><br>
         <input type="text" id="namn"><br>
@@ -26,13 +27,19 @@
         <label id="emailLabel">email:</label><br>
         <input type="email" id="email"><br>
         
-        <label>Skriv ett inlägg:</label><br>
-        <textarea placeholder="Skriv något här..." id="inlagg"></textarea><br>
+        <!-- <label>Skriv ett inlägg:</label><br>
+        <textarea placeholder="Skriv något här..." id="inlagg"></textarea><br> -->
         <label id="passLabel">Lösenord, minimikrav 8 tecken varav: en stor bokstav, en siffra, en symbol:</label><br>
         <input type="password" id="pass"><br>
     </form>
+    <button id="submit">submit</button>
 </fieldset>  
-        <button id="submit">submit</button>
+<fieldset>
+    <section id="server-output">
+        <p>Logga in för att kunna göra inlägg</p><br>
+        <button id="inlagg">Posta inlägget</button>
+        </section>
+</fieldset>
 </body>
   
 </html>
