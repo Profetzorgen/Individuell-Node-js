@@ -205,13 +205,17 @@ let hamtaData = function(){
 }
 let hamtaInlagg = function() {
    if(onlineBool===true){
-      
-   }
+      let forfragan = new XMLHttpRequest();
+      forfragan.open("GET","/hämtainläggen");
+      forfragan.onload = function () {
+         document.getElementById("Respons").innerHTML = this.response;
+      }
+   }forfragan.send();
 }
 $("#h2refresh").click(function () { // knapp anropar
    hamtaData();
    hanteraOnline("Uppdateraknappen");
-   
+   hamtaInlagg();
 });
 });
 // AJAX-RELATERAT HÄR OVANFÖR

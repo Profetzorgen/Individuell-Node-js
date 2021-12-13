@@ -8,35 +8,24 @@ const app = express();
 app.use(express.static(path.join(__dirname, "publikmapp")));
 app.use(express.urlencoded({ extended: false }));
 
-
-let kombineraJson = function () {
-
-    let anvUrFil = JSON.parse(fs.readFileSync("skapaAnv.json"));
-    let inlaggUrFil = JSON.parse(fs.readFileSync("inlagga.json"));
-    let komboArray = {
-     datum: "",
-     namn: "",
-     mobil: "",
-     email: "",
-     inlagg: "",
-     pass: "",
-    };
-       for (let i = 0; i < inlaggUrFil.length; i++){
-         komboArray.datum = inlaggUrFil[i].datum_received,
-         komboArray.namn = anvUrFil[i].namn_received,
-         komboArray.mobil = anvUrFil[i].mobil_received,
-         komboArray.email = anvUrFil[i].email_received,
-         komboArray.inlagg = inlaggUrFil[i].inlagg_received,
-         komboArray.pass = anvUrFil[i].pass_received,
-         fs.writeFile(
-          "kombo.json",
-          JSON.stringify(komboArray, null, 2),
-          (err) => {
-            if (err) throw err;
-            console.log("OK");
-          });
-        } 
-};
+app.get("/hämtainläggen", (req,res) =>{
+  let inlaggUrFil = JSON.parse(fs.readFileSync("inlagga.json"));
+  let inlaggArray = {
+   datum: "",
+   namn: "",
+   inlagg: "",
+  };
+     for (let i = 0; i < inlaggUrFil.length; i++){
+      inlaggArray.datum = inlaggUrFil[i].datum_received,
+      inlaggArray.namn = inlaggUrFil[i].namn_received,
+      inlaggArray.inlagg = inlaggUrFil[i].inlagg_received,
+      JSON.stringify(inlaggArray, null, 2),(err) => {
+          if (err) throw err;
+          console.log("OK");
+        }
+      }
+      res.send(inlaggArray);
+});
 app.get("/", (req, res) =>{
   res.sendFile("indexmhh.html", {root: "./publikmapp"});
 });
@@ -112,7 +101,7 @@ app.post("/loggaIn", (req,res)=>{
        }
   }
   
-}
+ }
  res.send(kontroll);
  console.log(kontroll);
 });
