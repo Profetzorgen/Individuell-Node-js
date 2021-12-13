@@ -12,9 +12,10 @@
 </head>
   
 <body>
+    <main>
     <h1>Mattis halvsega gästboksbrunto</h1>
     <h2 id="ajaxText">Den här texten ska förändras via ajax utan att sidan laddas om</h2>
-    <button id="h2refresh">Denna knapp ändrar texten ovan med ajax.</button><br>
+    <button id="h2refresh">Uppdatera sidan</button><br>
     <fieldset id="users">
         <button onclick="skapaKnapp()" id="anvSkapKnapp">Skapa ny användare</button>
         <p1 id="eller">eller</p1>
@@ -33,30 +34,27 @@
         <input type="password" id="pass"><br>
         <button id="skickaUpp">Skicka uppgifterna</button>
     </form>
-    <form id="loggaAnvForm">
-            <label>Användarnamn: </label><br>
-            <input type="text"><br>
-            <label>Lösenord:</label><br>
-            <input type="password"><br>
+    <div id= loggaAnvForm>
+    <form>
+            <label id="anvLabel2">Användarnamn: Admin Admin</label><br>
+            <input type="text" id="loginUserName"><br>
+            <label id="passLabel2">Lösenord: Password_89</label><br>
+            <input type="password" id="loginPass"><br>   
     </form>
+    <button id="btnLogin">Logga in</button>
+</div>
 </fieldset>  
-<fieldset id="innehall">
-    <section>
-        <label>Datum: </p1><br>
-        <p1 id="inlaggetsDatum">Inlaggsdatum kmr har</p1><br>
-        <label>User: </p1><br>
-        <p1 id="inlaggetsUser">Username kommer har</p1><br>
-        <label>Säger: </p1><br>
-        <p1 id="inlagget">Inlagget i sig sjalvt har</p1>
-    </section>
+<fieldset>   
+    <div id="inlaggSkickaRuta">
+        <textarea id="inlaggSkicka"></textarea><br>
+        <button id ="inlaggSkickaKnapp">Skicka inlägg</button><br>
+    </div>
 </fieldset>
 <fieldset>
-    <form id="inlaggSkicka">
-        <label>Skriv ett inlägg:</label><br>
-        <textarea placeholder="Skriv något här..." id="inlagg"></textarea><br>
-        <button id="inlaggPost">Posta inlägget</button><br>
-    </form>
+    <label id ="Respons">Du måste vara inloggad för att göra eller se inlägg</label><br>
 </fieldset>
+<button onclick="LOGGAUT()">Logga ut</button>
+</main>
 </body>
   
 </html>
