@@ -1,6 +1,16 @@
 
 // SÅHÄR BLEV DET FÄRDIGA RESULTATET:
+// fixa datumgeneratorn fast bättre
+// spara inloggade användarens uppgifter tills loggar ut
+
 $(document).ready(function () { // samma som window.onload
+   let currentDate = new Date();
+   let time = currentDate.getHours() + ":" + currentDate.getMinutes();
+   let cDay = currentDate.getDate();
+   let cMonth = currentDate.getMonth() + 1;
+   let cYear = currentDate.getFullYear();
+   let datum =  cYear + "/" + cMonth + "/" + cDay +" - "+ time;
+   
    
    let inlaggSkickaRuta = document.getElementById("inlaggSkickaRuta");
    let usersPanelen = document.getElementById("users");
@@ -11,12 +21,12 @@ $(document).ready(function () { // samma som window.onload
          usersPanelen.style.display = "block";
          inlaggSkickaRuta.style.display = "none";
          console.log("onlinebool: "+onlineBool + "\n  FRÅN:"+vem);
+         
       }
       else if (onlineBool===true){
          usersPanelen.style.display = "none";
          inlaggSkickaRuta.style.display = "block";
          console.log("onlinebool: "+onlineBool +"\n  FRÅN: "+vem);
-         
       }
    };
    let namnTest = function(namn,namnLabel,regexName) {
@@ -59,8 +69,10 @@ $(document).ready(function () { // samma som window.onload
          return false;
       }
    };
-   hanteraOnline("window.onload");
+   onlineBool = false;
+   hanteraOnline("Window.onload")
    $("#skickaUpp").click(function () { // skapar ny användare
+         
          let namn = document.getElementById('namn').value;
          let mobil = document.getElementById('mobil').value;
          let email = document.getElementById('email').value;
@@ -87,15 +99,18 @@ $(document).ready(function () { // samma som window.onload
           function (data, status) { 
              console.log(data); 
           });
-          alert("Success! användaren skapades!");
+          
+          alert("Grattis! kontot skapades! och du är online.");
           onlineBool = true;
-          //location.reload(); // laddar om hemsidan
+          hanteraOnline("Registera ny användare");
+          
       }else{
-         onlineBool = false;
+         
          console.log("Något stämmer inte. Har ej skickats.");
       }
-      hanteraOnline("Registera ny användare");
-      event.preventDefault();
+      
+      preventDefault();
+      
 });
 
 $("#btnLogin").click(function () {
@@ -117,57 +132,44 @@ $("#btnLogin").click(function () {
          function (data, status) {
             respons.innerHTML = data,
             console.log(data);
-            if(data="OK"){
+            if(data==("OK")){
                onlineBool=true;
+               hanteraOnline("Logga in befintlig användare");
+            }else{
+               onlineBool=false;
                hanteraOnline("Logga in befintlig användare");
             }
          });
    }else{
       alert("något valideringsfel!");
-      onlineBool=false;
    }
-   hanteraOnline();
    event.preventDefault();
 });
 $("#inlaggSkickaKnapp").click(function () {
+   let namn = document.getElementById("loginUserName").value;
    let inlaggSkicka = document.getElementById("inlaggSkicka").value;
    if(inlaggSkicka.value!==null){
       $.post("/inlagg",{
+         datum: datum,
+         namn: namn,
          inlagg: inlaggSkicka
          },
          function (data, status) {
             console.log(data);
          });
-         
    }else{
       alert("Något gick snett");
    }
-   hanteraOnline("Skicka inlägg");
-  
+   event.preventDefault();
 });
-// $("#inlaggSkickaKnapp").click(function () {
-//    // skicka inlägg här
-//    let inlagg = document.getElementById('inlaggSkicka').value;
-//    inlagg=validator.escape(inlagg);
-   
-//    let dt = new Date().toISOString().split(".")[0].replace(/[^\d]/gi, ""); // skapar datum utan symboler, bara siffror.
-//    let datum = dt.substring(0, 12); // endast ååååmmdd
-
-//    $.post("/inlagg",{
-//       datum: datum,
-//       namn: namn,
-//       inlagg: inlagg
-//    },
-//    function (data, status) { 
-//       console.log(data);
-//    });
-//    alert("Success! inlägget skapades!");
-//    //location.reload(); // laddar om hemsidan
-// });
 LOGGAUT = function(){
-   onlineBool = false;
-   hanteraOnline("Logga Ut Knappen");
-   alert("du loggas nu ut.");
+   if(onlineBool!==false){
+      onlineBool = false;
+      hanteraOnline("Logga Ut Knappen");
+      alert("du loggas nu ut.");
+   }else{
+      alert("du är redan utloggad!");
+   }
 }
 loggaKnapp = function () {
 
@@ -201,9 +203,15 @@ let hamtaData = function(){
    } // OVANFÖR: Ändrar texten under rubriken
    forfragan.send();
 }
+let hamtaInlagg = function() {
+   if(onlineBool===true){
+      
+   }
+}
 $("#h2refresh").click(function () { // knapp anropar
    hamtaData();
    hanteraOnline("Uppdateraknappen");
+   
 });
 });
 // AJAX-RELATERAT HÄR OVANFÖR

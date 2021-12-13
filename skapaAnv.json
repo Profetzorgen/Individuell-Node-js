@@ -1,8 +1,14 @@
 [
   {
     "namn_received": "Admin Admin",
-    "mobil_received": "0701112222",
-    "email_received": "admin.adminsson@gmail.com",
+    "mobil_received": "0701740174",
+    "email_received": "matti.heinonen1988@gmail.com",
     "pass_received": "Password_89"
+  },
+  {
+    "namn_received": "Matti Heinonen",
+    "mobil_received": "0701122334",
+    "email_received": "matti.heinonen1988@gmail.com",
+    "pass_received": "EttGanskaUnketLösenord_89"
   }
 ]

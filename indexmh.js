@@ -75,7 +75,8 @@ app.post("/createUser", (req,res) => { //fd. request i klientmh
       (err) => {
         if (err) throw err;
         console.log("Användaren skapades korrekt!");
-      });  
+      });
+      res.send();
 });
 // AJAX-RELATERAT, skickar ett enkelt svar om du trycker på en knapp på hemsidan.
 app.get("/andratextmedajax", (req,res) =>{
@@ -90,25 +91,28 @@ app.post("/loggaIn", (req,res)=>{
   let kontroll="";
   // kolla om användaren existerar
   let anvUrFil = JSON.parse(fs.readFileSync("skapaAnv.json"));
-
-  for(let i=0; i < anvUrFil.length; i++){
-   if(anvUrFil[i].namn_received == mottUppg.namn_received &&
-    anvUrFil[i].pass_received == mottUppg.pass_received){
-      kontroll = "OK";
-      console.log(kontroll);
-    }
-    else if(anvUrFil[i].namn_received != mottUppg.namn_received &&
-      anvUrFil[i].pass_received == mottUppg.pass_received){
-        kontroll = "namnfel";
-      }
-    else if(anvUrFil[i].namn_received == mottUppg.namn_received &&
-      anvUrFil[i].pass_received != mottUppg.pass_received){
-        kontroll = "passfel";
-    } else {
-      kontroll = "nullFel";
-
-    }
- }
+  if(mottUppg.namn_received=="" || mottUppg.pass_received==""){
+    kontroll="FEL";
+  } else {
+    for(let i=0; i < anvUrFil.length; i++){
+      if(anvUrFil[i].namn_received == mottUppg.namn_received &&
+       anvUrFil[i].pass_received == mottUppg.pass_received){
+         kontroll = "OK";
+         console.log(kontroll);
+       }
+       else if(anvUrFil[i].namn_received != mottUppg.namn_received &&
+         anvUrFil[i].pass_received == mottUppg.pass_received){
+           kontroll = "namnfel";
+         }
+       else if(anvUrFil[i].namn_received == mottUppg.namn_received &&
+         anvUrFil[i].pass_received != mottUppg.pass_received){
+           kontroll = "passfel";
+       } else {
+         kontroll = "nullFel";
+       }
+  }
+  
+}
  res.send(kontroll);
  console.log(kontroll);
 });
