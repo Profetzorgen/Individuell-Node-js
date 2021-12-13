@@ -1,11 +1,11 @@
 
 // SÅHÄR BLEV DET FÄRDIGA RESULTATET:
 $(document).ready(function () { // samma som window.onload
-
+   
    let inlaggSkickaRuta = document.getElementById("inlaggSkickaRuta");
    let usersPanelen = document.getElementById("users");
    var onlineBool = false;
-   let regexName = /^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i;
+   
    let hanteraOnline = function(vem){
       if(onlineBool === false){
          usersPanelen.style.display = "block";
@@ -16,8 +16,7 @@ $(document).ready(function () { // samma som window.onload
          usersPanelen.style.display = "none";
          inlaggSkickaRuta.style.display = "block";
          console.log("onlinebool: "+onlineBool +"\n  FRÅN: "+vem);
-         alert("Du loggas in, för att registrera eller logga in annan användare "+
-         ",vänligen logga ut");
+         
       }
    };
    let namnTest = function(namn,namnLabel,regexName) {
@@ -71,7 +70,7 @@ $(document).ready(function () { // samma som window.onload
          let emailLabel = document.getElementById('emailLabel');
          let namnLabel = document.getElementById('namnLabel');
          let passLabel = document.getElementById('passLabel');
-         
+         let regexName = /^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i;
          if(namnTest(namn,namnLabel,regexName) == true &&
          mobilTest(mobil,mobilLabel) == true &&
          emailTest(email,emailLabel) == true &&
@@ -88,11 +87,6 @@ $(document).ready(function () { // samma som window.onload
           function (data, status) { 
              console.log(data); 
           });
-          console.log(
-          "\nNamnvariabel: " + namn +
-          "\nMobilvariabel: "+ mobil + 
-          "\nEmailvariabel: "+ email + 
-          "\nPasswordvariabel: " +pass);
           alert("Success! användaren skapades!");
           onlineBool = true;
           //location.reload(); // laddar om hemsidan
@@ -105,82 +99,71 @@ $(document).ready(function () { // samma som window.onload
 });
 
 $("#btnLogin").click(function () {
-   let svarshantering = "";
    let namn = document.getElementById("loginUserName").value;
    let pass = document.getElementById("loginPass").value;
-   let inlaggen = document.getElementById("Respons");
+   
    let namnLabel = document.getElementById('anvLabel2');
    let passLabel = document.getElementById('passLabel2');
+   let regexName = /^[a-z\u00C0-\u02AB'´`]+\.?\s([a-z\u00C0-\u02AB'´`]+\.?\s?)+$/i;
+   let kontroll = "";
    
    if(namnTest(namn,namnLabel,regexName)==true &&
    passTest(pass,passLabel)== true){
+      let respons = document.getElementById("Respons");
       $.post("/loggaIn",{
          namn: namn,
          pass: pass
          },
          function (data, status) {
-             if(data===("inloggad")){
-               inlaggen.innerHTML = data;
-               svarshantering = data;
+            respons.innerHTML = data,
+            console.log(data);
+            if(data="OK"){
                onlineBool=true;
-               hanteraOnline("Inloggningen");
-             }else if(data===("namnfel")){
-                inlaggen.innerHTML= data;
-                onlineBool=false;
-                hanteraOnline("Inloggningen");
-             }
+               hanteraOnline("Logga in befintlig användare");
+            }
          });
-         console.log("\nNamnvariabel: " + namn +
-         "\nPasswordvariabel: " +pass);
-         
-   }else if (svarshantering===("")){
-      console.log("Ingen svarshantering ännu: "+ svarshantering);
-      onlineBool = false;
-      hanteraOnline("Logga in befintlig användare");
    }else{
-      console.log("FEL PÅ ANNAT SÄTT");
-      onlineBool = false;   
-      hanteraOnline("Logga in befintlig användare");
+      alert("något valideringsfel!");
+      onlineBool=false;
    }
-   //  event.preventDefault();
+   hanteraOnline();
+   event.preventDefault();
 });
 $("#inlaggSkickaKnapp").click(function () {
-   // skicka inlägg här
-   let datum;
-   let inlagg = document.getElementById('inlaggSkicka').value;
-   let datumGenerator = function () {
-      dt = new Date().toISOString().split(".")[0].replace(/[^\d]/gi, ""); // skapar datum utan symboler, bara siffror.
-      helDatum = dt.substring(0, 8); // endast ååååmmdd
-      helTid = dt.substring(8, 12);
-      dagensDatum = helDatum+"-"+helTid;
-      
-      console.log(helDatum);
-      console.log(helTid);
-      console.log(dagensDatum);
-      datum = dagensDatum;
+   let inlaggSkicka = document.getElementById("inlaggSkicka").value;
+   if(inlaggSkicka.value!==null){
+      $.post("/inlagg",{
+         inlagg: inlaggSkicka
+         },
+         function (data, status) {
+            console.log(data);
+         });
+         
+   }else{
+      alert("Något gick snett");
    }
-   datumGenerator();
-   let inlaggJustering = function(){ 
-      inlagg=validator.escape(inlagg);
-   }
-   inlaggJustering(inlagg);
-   $.post("/inlagg", 
-   {
-      datum: datum,
-      namn: namn,
-      inlagg: inlagg
-   },
-   function (data, status) { 
-      console.log(data); 
-   });
-   console.log(
-   "\nDatum: " + dagensDatum +
-   "\nNamn: " + namn +
-   "\nInlägg" + inlagg
-   );
-   alert("Success! inlägget skapades!");
-   //location.reload(); // laddar om hemsidan
+   hanteraOnline("Skicka inlägg");
+  
 });
+// $("#inlaggSkickaKnapp").click(function () {
+//    // skicka inlägg här
+//    let inlagg = document.getElementById('inlaggSkicka').value;
+//    inlagg=validator.escape(inlagg);
+   
+//    let dt = new Date().toISOString().split(".")[0].replace(/[^\d]/gi, ""); // skapar datum utan symboler, bara siffror.
+//    let datum = dt.substring(0, 12); // endast ååååmmdd
+
+//    $.post("/inlagg",{
+//       datum: datum,
+//       namn: namn,
+//       inlagg: inlagg
+//    },
+//    function (data, status) { 
+//       console.log(data);
+//    });
+//    alert("Success! inlägget skapades!");
+//    //location.reload(); // laddar om hemsidan
+// });
 LOGGAUT = function(){
    onlineBool = false;
    hanteraOnline("Logga Ut Knappen");
@@ -189,18 +172,16 @@ LOGGAUT = function(){
 loggaKnapp = function () {
 
    var loggaAnvForm = document.getElementById("loggaAnvForm");
-   var skapAnvForm = document.getElementById("skapAnvFormular");
-
+   var skapAnvForm = document.getElementById("skapAnvForm");
    if (!loggaAnvForm.style.display || loggaAnvForm.style.display==="none"){
       loggaAnvForm.style.display ="block";
       skapAnvForm.style.display = "none"
-
    } else {
       loggaAnvForm.style.display = "none";
    }
 };
 skapaKnapp = function () {
-   var skapAnvForm = document.getElementById("skapAnvFormular");
+   var skapAnvForm = document.getElementById("skapAnvForm");
    var loggaAnvForm = document.getElementById("loggaAnvForm");
    if (!skapAnvForm.style.display || skapAnvForm.style.display==="none"){
       skapAnvForm.style.display ="block";
@@ -222,6 +203,7 @@ let hamtaData = function(){
 }
 $("#h2refresh").click(function () { // knapp anropar
    hamtaData();
+   hanteraOnline("Uppdateraknappen");
 });
 });
 // AJAX-RELATERAT HÄR OVANFÖR

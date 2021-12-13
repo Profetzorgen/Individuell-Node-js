@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.static(path.join(__dirname, "publikmapp")));
 app.use(express.urlencoded({ extended: false }));
-let anvOnline = false;
+
 
 let kombineraJson = function () {
-  if(anvOnline === true){
+
     let anvUrFil = JSON.parse(fs.readFileSync("skapaAnv.json"));
     let inlaggUrFil = JSON.parse(fs.readFileSync("inlagga.json"));
     let komboArray = {
@@ -36,16 +36,11 @@ let kombineraJson = function () {
             console.log("OK");
           });
         } 
-  } else {
-    console.log("Användaren är inte inloggad!");
-  }
-
 };
 app.get("/", (req, res) =>{
   res.sendFile("indexmhh.html", {root: "./publikmapp"});
 });
 app.post("/inlagg", (req, res) =>{
-  let skickat = false;
   const inlagg = {
     datum_received: req.body.datum,
     namn_received: req.body.namn,
@@ -62,7 +57,7 @@ app.post("/inlagg", (req, res) =>{
       console.log("Inlägget lades till korrekt!");
     });
     // kombineraJson();
-    res.send();
+    res.send()
 });
 app.post("/createUser", (req,res) => { //fd. request i klientmh
   const skapaAnv = {
@@ -85,9 +80,6 @@ app.post("/createUser", (req,res) => { //fd. request i klientmh
 // AJAX-RELATERAT, skickar ett enkelt svar om du trycker på en knapp på hemsidan.
 app.get("/andratextmedajax", (req,res) =>{
   let asd = "Servertext";
-  if(anvOnline === true){
-    asd = "Server bekräftar: Användaren är online!";
-  } else asd = "Servern nekar: Användaren är OFFLINE!";
   res.send(asd);
 });
 app.post("/loggaIn", (req,res)=>{
@@ -95,34 +87,30 @@ app.post("/loggaIn", (req,res)=>{
     namn_received: req.body.namn,
     pass_received: req.body.pass,
   };
-  let inloggad="";
+  let kontroll="";
   // kolla om användaren existerar
   let anvUrFil = JSON.parse(fs.readFileSync("skapaAnv.json"));
 
   for(let i=0; i < anvUrFil.length; i++){
    if(anvUrFil[i].namn_received == mottUppg.namn_received &&
     anvUrFil[i].pass_received == mottUppg.pass_received){
-      anvOnline = true;
-      inloggad = "inloggad";
-      console.log(inloggad);
-      break;
+      kontroll = "OK";
+      console.log(kontroll);
     }
     else if(anvUrFil[i].namn_received != mottUppg.namn_received &&
       anvUrFil[i].pass_received == mottUppg.pass_received){
-        inloggad = "namnfel";
-        anvOnline = false;
+        kontroll = "namnfel";
       }
     else if(anvUrFil[i].namn_received == mottUppg.namn_received &&
       anvUrFil[i].pass_received != mottUppg.pass_received){
-        inloggad = "passfel";
-        anvOnline = false;
+        kontroll = "passfel";
     } else {
-      inloggad = "nullFel";
-      anvOnline = false;
+      kontroll = "nullFel";
+
     }
  }
- res.send(inloggad);
- console.log(inloggad);
+ res.send(kontroll);
+ console.log(kontroll);
 });
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 //Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
