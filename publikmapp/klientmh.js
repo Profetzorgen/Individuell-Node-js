@@ -1,8 +1,3 @@
-
-// SÅHÄR BLEV DET FÄRDIGA RESULTATET:
-// fixa datumgeneratorn fast bättre
-// spara inloggade användarens uppgifter tills loggar ut
-
 $(document).ready(function () { // samma som window.onload
    let currentDate = new Date();
    let time = currentDate.getHours() + ":" + currentDate.getMinutes();
@@ -104,6 +99,7 @@ $(document).ready(function () { // samma som window.onload
             if(data==="1"){
                onlineBool = true;
                hanteraOnline("Från user create");
+               // ? UppdateraRespons();
             } else if (data==="2"){
                onlineBool=false;
                hanteraOnline("Från user create");
@@ -118,7 +114,7 @@ $(document).ready(function () { // samma som window.onload
 $("#btnLogin").click(function () {
    kontroll="";
    nick = $('#loginNick').val(); // inloggningsrutan för nick
-   if(passTest($("#loginPass").val())== true){
+   if($('#loginPass').val()!=""){
       $.post("/loggaIn",{
          nick: $('#loginNick').val(), // från logga in befintlig
          pass: $("#loginPass").val()
@@ -128,6 +124,7 @@ $("#btnLogin").click(function () {
             if(data==="1"){
                onlineBool = true;
                hanteraOnline("Från inloggningenn");
+               UppdateraRespons();
             } else if (data==="2"){
                onlineBool=false;
                hanteraOnline("Från inloggningenn");
@@ -153,7 +150,9 @@ $("#inlaggSkickaKnapp").click(function () {
          },
          function (data, status) {
             console.log(data);
+            UppdateraRespons();
          });
+         
    }else{
       $("#h3text").html("Skriv något");
    }

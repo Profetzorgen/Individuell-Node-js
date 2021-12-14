@@ -28,7 +28,7 @@ app.post("/inlagg", (req, res) =>{
       if (err) throw err;
       console.log("Inlägget lades till korrekt!");
     });
-    res.send("Inlägget skickades! Uppdatera med nån knapp?")
+    res.send()
 });
 app.post("/createUser", (req,res) => { //fd. request i klientmh
   const skapaAnv = { 
