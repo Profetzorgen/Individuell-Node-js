@@ -117,19 +117,19 @@ $("#btnLogin").click(function () {
          },
          function (data, status) {
             console.log(data);
-            if(data==="1"){
+            if(data==="1"){ // rätt användare och lösenord enligt servern
                onlineBool = true;
                hanteraOnline("Från inloggningenn");
                UppdateraRespons();
-            } else if (data==="2"){
+            } else if (data==="2"){ // inte rätt anv/lösen enligt servern
                onlineBool=false;
                hanteraOnline("Från inloggningenn");
             }
          });
-         console.log(kontroll);
+         console.log(kontroll); // kontroll-variabel jag hade innan jag förstod korrekt.
          
    }else{
-      alert("något valideringsfel!");
+      alert("något valideringsfel!"); // vid validering eller liknande.
    }
   
    event.preventDefault();
