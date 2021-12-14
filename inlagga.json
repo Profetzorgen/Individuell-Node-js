@@ -1,17 +1,7 @@
 [
   {
     "datum_received": "2021/12/13 - 23:18",
-    "namn_received": "Admin Admin",
+    "nick_received": "Admin",
     "inlagg_received": "hej från admin"
-  },
-  {
-    "datum_received": "2021/12/13 - 23:18",
-    "namn_received": "Admin Admin",
-    "inlagg_received": "hej från admin"
-  },
-  {
-    "datum_received": "2021/12/13 - 23:21",
-    "namn_received": "Matti Heinonen",
-    "inlagg_received": "Jag har suttit här 2 nätter i sträck utan att sova, men nu är det klart!"
   }
 ]
