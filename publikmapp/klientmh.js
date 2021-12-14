@@ -110,24 +110,35 @@ $(document).ready(function () { // samma som window.onload
 });
 
 $("#btnLogin").click(function () {
-   nick = $('#loginNick'); // inloggningsrutan för nick
+   kontroll="";
+   nick = $('#loginNick').val(); // inloggningsrutan för nick
    if(passTest($("#loginPass").val())== true){
       $.post("/loggaIn",{
          nick: $('#loginNick').val(), // från logga in befintlig
          pass: $("#loginPass").val()
          },
          function (data, status) {
-            console.log(data);
+            console.log(data),
+            $('#Respons').html(data);
+            $('#ajaxText').html(data);
+            kontroll += data;
+            
          });
+         
    }else{
       alert("något valideringsfel!");
    }
+   console.log(kontroll);
+   if(kontroll=nick){
+      onlineBool = true;
+   }
+   hanteraOnline();
    event.preventDefault();
 });
 $("#inlaggSkickaKnapp").click(function () {
    
    $('#h3text').html("inlägg skickat!");
-   if($('#inlaggSkicka').val()!==""){
+   if($('#inlaggSkicka').val("")){
       $.post("/inlagg",{
          datum: datum,
          nick: nick, // var-variabeln valdes vid inloggningsmetoden.
@@ -176,6 +187,7 @@ let hamtaData = function(){
 $("#h2refresh").click(function () { // knapp anropar
    hamtaData();
    hanteraOnline("Uppdateraknappen");
+   UppdateraRespons();
 });
 });
 // AJAX-RELATERAT HÄR OVANFÖR

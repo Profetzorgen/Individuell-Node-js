@@ -56,11 +56,18 @@ app.get("/andratextmedajax", (req,res) =>{
   res.send(asd);
 });
 app.get("/andratextmedajax2", (req,res) =>{
-  let asd = "Servertext";
-  res.send(asd);
+  const inl = JSON.parse(fs.readFileSync("inlagga.json"));
+  let inlTextForm = "";
+  for (let i = 0; i < inl.length; i++) {
+    inlTextForm +=
+      "Datum: "+inl[i].datum_received+"<br>"+
+      "Nick: "+inl[i].nick_received +"<br>"+
+      "Inlägg: "+inl[i].inlagg_received+"<br><br>" ;
+  }
+  res.send(inlTextForm);
 });
 app.post("/loggaIn", (req,res)=>{
-  let kontroll="Serversvar:";
+  let svar="";
   const skapaAnv = { 
     nick_received: req.body.nick,
     pass_received: req.body.pass,
@@ -68,13 +75,18 @@ app.post("/loggaIn", (req,res)=>{
     const dataTagetUrFil = fs.readFileSync("skapaAnv.json");
     anvArray = JSON.parse(dataTagetUrFil);
     //anvArray.push(skapaAnv);
+
     for(let i = 0; i < anvArray.length;i++){
-      if(skapaAnv.nick_received == anvArray[i].nick_received){
-        kontroll +="användaren finns";
-      } 
+      if(skapaAnv.nick_received == anvArray[i].nick_received &&
+        skapaAnv.pass_received == anvArray[i].pass_received){
+        svar +=""+anvArray[i].nick_received;
+      } else if (skapaAnv.nick_received == anvArray[i].nick_received &&
+        skapaAnv.pass_received != anvArray[i].pass_received){
+          svar +="Användaren finns, Fel lösenord";
+        } 
     }
- res.send(kontroll);
- console.log(kontroll);
+ res.send(svar);
+ console.log(svar);
 });
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 //Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
