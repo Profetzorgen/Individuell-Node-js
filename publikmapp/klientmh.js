@@ -27,16 +27,17 @@ $(document).ready(function () { // samma som window.onload
       if(onlineBool === false){
          $('#users').show();
          $('#inlaggSkickaRuta').hide();
-         //$('#Respons').html("Du måste vara online för att se eller göra inlägg");
+         $('#h3text').html("Du måste vara online för att se eller göra inlägg");
+         $('#Respons').html("Du måste vara online för att se eller göra inlägg");
          console.log("onlinebool: "+onlineBool + "\n  FRÅN:"+vem);
-         console.log(namn);
+      
       }
       else if (onlineBool===true){
          $('#users').hide();
          $('#inlaggSkickaRuta').show();
          console.log("onlinebool: "+onlineBool +"\n  FRÅN: "+vem);
          UppdateraRespons();
-         console.log(namn);
+         
       }
    };
    hanteraOnline("Window.onload");
@@ -102,7 +103,6 @@ $(document).ready(function () { // samma som window.onload
           function (data, status) { 
              $('#Respons').html(data); 
           });
-          
       }else{
          console.log("Något stämmer inte. Har ej skickats.");
       }
@@ -119,20 +119,22 @@ $("#btnLogin").click(function () {
          },
          function (data, status) {
             console.log(data),
-            $('#Respons').html(data);
-            $('#ajaxText').html(data);
             kontroll += data;
-            
+            if(kontroll==="1"){
+               onlineBool = true;
+               hanteraOnline("Från inloggningenn");
+            } else if (kontroll==="2"){
+               onlineBool=false;
+               hanteraOnline("Från inloggningenn");
+            }
          });
+         console.log(kontroll);
          
    }else{
       alert("något valideringsfel!");
    }
-   console.log(kontroll);
-   if(kontroll=nick){
-      onlineBool = true;
-   }
-   hanteraOnline();
+  
+   
    event.preventDefault();
 });
 $("#inlaggSkickaKnapp").click(function () {
@@ -146,13 +148,12 @@ $("#inlaggSkickaKnapp").click(function () {
          },
          function (data, status) {
             console.log(data);
-            
          });
    }else{
       $("#h3text").html("Skriv något");
    }
    event.preventDefault();
-   UppdateraRespons();
+
 });
 LOGGAUT = function(){
    if(onlineBool!==false){
@@ -187,7 +188,7 @@ let hamtaData = function(){
 $("#h2refresh").click(function () { // knapp anropar
    hamtaData();
    hanteraOnline("Uppdateraknappen");
-   UppdateraRespons();
+
 });
 });
 // AJAX-RELATERAT HÄR OVANFÖR

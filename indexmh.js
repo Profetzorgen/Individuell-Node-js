@@ -49,12 +49,14 @@ app.post("/createUser", (req,res) => { //fd. request i klientmh
         if (err) throw err;
         console.log("Användaren skapades korrekt!");
       });
+      res.send("1");
 });
 // AJAX-RELATERAT, skickar ett enkelt svar om du trycker på en knapp på hemsidan.
 app.get("/andratextmedajax", (req,res) =>{
   let asd = "Servertext";
   res.send(asd);
 });
+// den här skickar nu inlägg vid begäran!
 app.get("/andratextmedajax2", (req,res) =>{
   const inl = JSON.parse(fs.readFileSync("inlagga.json"));
   let inlTextForm = "";
@@ -71,7 +73,8 @@ app.post("/loggaIn", (req,res)=>{
   const skapaAnv = { 
     nick_received: req.body.nick,
     pass_received: req.body.pass,
-  };   
+  };   console.log("Tog emot NICK: "+skapaAnv.nick_received +
+  "\nPASS: "+skapaAnv.pass_received);
     const dataTagetUrFil = fs.readFileSync("skapaAnv.json");
     anvArray = JSON.parse(dataTagetUrFil);
     //anvArray.push(skapaAnv);
@@ -79,10 +82,10 @@ app.post("/loggaIn", (req,res)=>{
     for(let i = 0; i < anvArray.length;i++){
       if(skapaAnv.nick_received == anvArray[i].nick_received &&
         skapaAnv.pass_received == anvArray[i].pass_received){
-        svar +=""+anvArray[i].nick_received;
+        svar ="1";
       } else if (skapaAnv.nick_received == anvArray[i].nick_received &&
         skapaAnv.pass_received != anvArray[i].pass_received){
-          svar +="Användaren finns, Fel lösenord";
+          svar ="2";
         } 
     }
  res.send(svar);
