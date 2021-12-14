@@ -21,15 +21,14 @@ app.post("/inlagg", (req, res) =>{
   const inlaggData = fs.readFileSync("inlagga.json");
   omvandlaInlagg = JSON.parse(inlaggData);
   omvandlaInlagg.push(inlagg);
-  fs.writeFile(
+  fs.writeFileSync(
     "inlagga.json",
     JSON.stringify(omvandlaInlagg, null, 2),
     (err) => {
       if (err) throw err;
       console.log("Inlägget lades till korrekt!");
     });
-    // kombineraJson();
-    
+    res.send("Inlägget skickades! Uppdatera med nån knapp?")
 });
 app.post("/createUser", (req,res) => { //fd. request i klientmh
   const skapaAnv = { 

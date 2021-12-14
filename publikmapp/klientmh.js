@@ -27,7 +27,7 @@ $(document).ready(function () { // samma som window.onload
       if(onlineBool === false){
          $('#users').show();
          $('#inlaggSkickaRuta').hide();
-         $('#h3text').html("Du måste vara online för att se eller göra inlägg");
+         
          $('#Respons').html("Du måste vara online för att se eller göra inlägg");
          console.log("onlinebool: "+onlineBool + "\n  FRÅN:"+vem);
       
@@ -101,7 +101,13 @@ $(document).ready(function () { // samma som window.onload
              pass: $('#pass').val()
           },
           function (data, status) { 
-             $('#Respons').html(data); 
+            if(data==="1"){
+               onlineBool = true;
+               hanteraOnline("Från user create");
+            } else if (data==="2"){
+               onlineBool=false;
+               hanteraOnline("Från user create");
+            }
           });
       }else{
          console.log("Något stämmer inte. Har ej skickats.");
@@ -118,12 +124,11 @@ $("#btnLogin").click(function () {
          pass: $("#loginPass").val()
          },
          function (data, status) {
-            console.log(data),
-            kontroll += data;
-            if(kontroll==="1"){
+            console.log(data);
+            if(data==="1"){
                onlineBool = true;
                hanteraOnline("Från inloggningenn");
-            } else if (kontroll==="2"){
+            } else if (data==="2"){
                onlineBool=false;
                hanteraOnline("Från inloggningenn");
             }
@@ -140,10 +145,10 @@ $("#btnLogin").click(function () {
 $("#inlaggSkickaKnapp").click(function () {
    
    $('#h3text').html("inlägg skickat!");
-   if($('#inlaggSkicka').val("")){
+   if($('#inlaggSkicka')){
       $.post("/inlagg",{
          datum: datum,
-         nick: nick, // var-variabeln valdes vid inloggningsmetoden.
+         nick: nick,
          inlagg: $('#inlaggSkicka').val()
          },
          function (data, status) {
